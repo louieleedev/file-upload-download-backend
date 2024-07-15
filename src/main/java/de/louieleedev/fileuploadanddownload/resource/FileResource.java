@@ -27,7 +27,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 public class FileResource {
 
     // Definiere, wo die Datei gespeichert werden soll
-    public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads";
+    public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";
 
     /**
      * Methode zum Hochladen (Upload) einer Datei
@@ -38,9 +38,9 @@ public class FileResource {
      * Am Ende gibt man eine Antwort mit HTTP-Status 200 (OK) zurück und sendet die Liste der gespeicherten Dateinamen.
      */
     @PostMapping("/upload")
-    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> MultipartFiles) throws IOException {
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files")List<MultipartFile> multipartFiles) throws IOException {
         List<String> filenames = new ArrayList<>();
-        for (MultipartFile file : MultipartFiles) {
+        for(MultipartFile file : multipartFiles) {
             String filename = StringUtils.cleanPath(file.getOriginalFilename());
             Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
             copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
